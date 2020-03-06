@@ -12,9 +12,7 @@ output:
 
 ```r
 setwd("C://Users//pg000//Desktop//Download//")
-
 data1 <- read.csv("activity.csv")
-
 library(ggplot2)
 library(knitr)
 library(dplyr)
@@ -138,7 +136,6 @@ plot(g2)
 
 ```r
 max_steps <- which.max(interval_step$steps)
-
 interval_step[max_steps,]
 ```
 
@@ -234,7 +231,6 @@ dataNew <- data_filled
 dataNew["type_of_day"] <- weekdays(as.Date(dataNew$date))
 dataNew$type_of_day[dataNew$type_of_day %in% c('Saturday','Sunday')] <- 'weekend'
 dataNew$type_of_day[dataNew$type_of_day != 'weekend'] <- 'weekday'
-
 dataNew$type_of_day <- as.factor(dataNew$type_of_day)
 dataNew_SI <- aggregate(steps~interval + type_of_day, dataNew, mean)
 head(dataNew_SI)   
