@@ -1,0 +1,101 @@
+---
+title: "Peer Assessment 1"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+loading the dataset 
+```{r setup, include=FALSE}
+setwd("C://Users//pg000//Desktop//Download//")
+
+data1 <- read.csv("activity.csv")
+
+library(ggplot2)
+library(knitr)
+library(dplyr)
+
+head(data1,10)
+
+```
+
+## the number of step according to the date
+## make histogram that the numbers steps taken each day 
+```{r }
+step_date <- aggregate(steps~date, data = data1,FUN = sum, na.rm=FALSE)
+str(step_date)
+
+ggplot(step_date, aes(x=steps))+
+ geom_histogram(bins = 20)+
+ labs(title = "total number of steps", 
+      x = "Number of steps of per day",
+      y = "Number of times in day")
+```
+
+## calculate the mean and median number 
+
+```{r pressure, echo=FALSE}
+mean_step <- mean(step_date$steps)
+mean_step
+summary(step_date)
+```
+
+## intervals that average of number of steps taken 
+## plot in time series 
+```{r}
+interval_step <- aggregate(steps ~ interval, data1, mean)
+head(interval_step)
+
+ggplot(interval_step, aes(x =interval , y =steps))+
+ geom_line()+
+ labs(title = "average daily activity pattern",
+      x ="interval", y= "steps")
+```
+## finding max number
+```{r}
+max_steps <- which.max(interval_step$steps)
+
+interval_step[max_steps,]
+```
+## imputing missing value 
+```{r}
+sum(is.na(data1))
+
+data_filled <- data1 
+means <- mean(data1$steps, na.rm  =TRUE)
+data_filled$steps[is.na(data_filled$steps)] <- means
+
+str(data_filled)
+```
+## plot the dataset when missing value filled in 
+
+```{r}
+steps_datafill <- aggregate(steps~date, data = data_filled, FUN = sum)
+head(steps_datafill)
+
+ggplot(steps_datafill, aes(x=steps))+
+ geom_histogram(bins = 20)+
+ labs(title = "Histogram of the total number of steps",
+      x = "Number of steps per day", y ="Number times in day")
+
+summary(step_date)
+summary(steps_datafill)
+```
+## check differences in activity patterns between weekdays and weekends and plot it
+```{r }
+dataNew <- data_filled
+dataNew["type_of_day"] <- weekdays(as.Date(dataNew$date))
+dataNew$type_of_day[dataNew$type_of_day %in% c('Saturday','Sunday')] <- 'weekend'
+dataNew$type_of_day[dataNew$type_of_day != 'weekend'] <- 'weekday'
+
+dataNew$type_of_day <- as.factor(dataNew$type_of_day)
+dataNew_SI <- aggregate(steps~interval + type_of_day, dataNew, mean)
+head(dataNew_SI)   
+
+ggplot(dataNew_SI, aes(x = interval , y =steps))+
+ geom_line()+
+ labs(title = "Average daily steps",
+      x = "interval",
+      y = "Total number of steps")+
+ facet_wrap(~type_of_day,ncol = 1, nrow =2)
+```
