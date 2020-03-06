@@ -5,10 +5,7 @@ output:
 ---
  loading the dataset 
  
- 
- ```r
- knitr::opts_chunk$set(fig.path='Figs/')
- ```
+
 
 ```r
 setwd("C://Users//pg000//Desktop//Download//")
@@ -76,7 +73,7 @@ g3 <- ggplot(step_date, aes(x=steps))+
 plot(g3)
 ```
 
-![](Figs/unnamed-chunk-2-1.png)<!-- -->
+![](NewData_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 ## calculate the mean and median number 
 
@@ -131,7 +128,7 @@ g2 <- ggplot(interval_step, aes(x =interval , y =steps))+
 plot(g2)
 ```
 
-![](Figs/unnamed-chunk-4-1.png)<!-- -->
+![](NewData_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 ## finding max number
 
 ```r
@@ -193,7 +190,7 @@ g1 <- ggplot(steps_datafill, aes(x=steps))+
 plot(g1)
 ```
 
-![](Figs/unnamed-chunk-7-1.png)<!-- -->
+![](NewData_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 ```r
 summary(step_date)
@@ -256,4 +253,4 @@ g<-ggplot(dataNew_SI, aes(x = interval , y =steps))+
 plot(g)
 ```
 
-![](Figs/unnamed-chunk-8-1.png)<!-- -->
+![](NewData_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
